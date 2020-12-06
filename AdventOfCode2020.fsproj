@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="src/Utils.fs" />
-    <Compile Include="src/Day*.fs" />
+    <Compile Include="src/*.fs" />
+    <Compile Include="src/Day*/*.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
