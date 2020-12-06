@@ -33,7 +33,7 @@ A chronicle of what I've tried and learned each day.
   - MacBook Pro (15-inch, 2018)
   - [Visual Studio Code](https://code.visualstudio.com/)
   - [.NET SDK 5.0](https://dotnet.microsoft.com/download)
-    - Upgraded from
+    - Upgraded from 2.2.101 so I could use string interpolation
   - [Ionide-fsharp](https://marketplace.visualstudio.com/items?itemName=Ionide.Ionide-fsharp) plugin
 - Set up base modules and compilation ordering
 - Figured out file i/o and some basic syntax
