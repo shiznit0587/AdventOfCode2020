@@ -4,30 +4,51 @@ let day1 =
     printfn "Running Day 1 - a"
 
     let lines =
-        readLines 1 |> Array.map int |> Array.sort
+        readLines 1
+        |> Array.map int
+        |> Array.sort
+        |> Seq.toList
 
-    let rec findPairSumming2020 left right =
-        let sum = lines.[left] + lines.[right]
+    // Starting with pointers to the start and end of the sorted list,
+    // recursively traverse our way inward until the sum of two numbers is 2020.
+    let rec findPairSumming2020 x y =
+        let sum = lines.[x] + lines.[y]
         match sum with
-        | sum when sum > 2020 -> findPairSumming2020 left (right - 1)
-        | sum when sum < 2020 -> findPairSumming2020 (left + 1) right
-        | _ -> (lines.[left], lines.[right])
+        | sum when sum > 2020 -> findPairSumming2020 x (y - 1)
+        | sum when sum < 2020 -> findPairSumming2020 (x + 1) y
+        | _ -> (lines.[x], lines.[y])
 
-    let (left, right) = findPairSumming2020 0 (lines.Length - 1)
+    let (x, y) = findPairSumming2020 0 (lines.Length - 1)
 
-    printfn "left = %d, right = %d, product = %d" left right (left * right)
+    printfn "x = %d, y = %d, product = %d" x y (x * y)
 
     printfn "Running Day 1 - b"
 
-    // TODO: This algorithm is nowhere near complete,
-    let rec findTripleSumming2000 left center right =
-        printfn "Testing left=%d, center=%d, right=%d" left center right
-        if (lines.[left] + lines.[center] + lines.[right]) = 2020
-        then (lines.[left], lines.[center], lines.[right])
-        else if right = (lines.Length - 1)
-        then findTripleSumming2000 (left + 1) 0 (left + 2)
-        else findTripleSumming2000 left 0 (right + 1)
+    // In functional programming, I can't figure out how to early-out when branches of a triple-nested loop sum > 2020
+    // I'm going to instead just build all triples from the list and evaluate them all.
 
-    let (left, center, right) = findTripleSumming2000 0 1 2
+    let rec makePairs list =
+        match list with
+        | [] -> []
+        | x :: rest -> // deconstruct the list into two parts - the first item and the rest of the list
+            let xPairs = rest |> List.map (fun y -> (x, y)) // make tuples
+            xPairs @ (makePairs rest) // append this list of pairs with the pairs from the rest of the list
 
-    printfn "left = %d, center = %d, right = %d, product = %d" left center right (left * center * right)
+    let rec makeTriples list =
+        match list with
+        | [] -> []
+        | x :: rest ->
+            let pairs = makePairs rest
+
+            let triples =
+                pairs |> List.map (fun (y, z) -> (x, y, z))
+
+            triples @ (makeTriples rest)
+
+    let (x, y, z) =
+        makeTriples lines
+        |> List.find (fun (x, y, z) -> x + y + z = 2020)
+
+    printfn "x = %d, y = %d, z = %d, product = %d" x y z (x * y * z)
+
+    printfn "Day 1 Complete"
