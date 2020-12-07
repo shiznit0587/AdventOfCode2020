@@ -4,7 +4,7 @@
 
 For this year, I decided to try my hand at a functional programming language.
 
-## Sources
+## Resources
 
 - [Tour of F#](https://docs.microsoft.com/en-us/dotnet/fsharp/tour)
 - [F# syntax in 60 seconds](https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/)
@@ -13,10 +13,17 @@ For this year, I decided to try my hand at a functional programming language.
 - [fsharp-tutorial.fs](https://gist.github.com/odytrice/667bc1d8d7c872fe8c5b1baa58898c32)
 - [Active Patterns](https://fsharpforfunandprofit.com/posts/convenience-active-patterns/)
 - [Regular expression active pattern](http://www.fssnip.net/29)
+- [F# Programming WikiBook](https://en.wikibooks.org/wiki/F_Sharp_Programming)
+- [F# documentation](https://docs.microsoft.com/en-us/dotnet/fsharp/)
 
 ## Journal
 
 A chronicle of what I've tried and learned each day.
+
+### Day 3
+
+- Investigating 2d-arrays, tuple decomposition, and more recursion.
+- First puzzle that caused an integer overflow!
 
 ### Day 2
 

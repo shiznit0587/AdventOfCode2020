@@ -6,5 +6,6 @@ let main argv =
 
     Day1.day1
     Day2.day2
+    Day3.day3
 
     0 // return an integer exit code
