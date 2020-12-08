@@ -15,10 +15,16 @@ For this year, I decided to try my hand at a functional programming language.
 - [Regular expression active pattern](http://www.fssnip.net/29)
 - [F# Programming WikiBook](https://en.wikibooks.org/wiki/F_Sharp_Programming)
 - [F# documentation](https://docs.microsoft.com/en-us/dotnet/fsharp/)
+- [FSharp.Core API Reference](https://fsharp.github.io/fsharp-core-docs/reference/)
 
 ## Journal
 
 A chronicle of what I've tried and learned each day.
+
+### Day 4
+
+- It took me three hours to figure out how to parse the input into a collection of key-value lookup tables, or `seq<Map<string,string>>`.
+- I learned how to use the F# interactive REPL environment to execute individual lines of code and see the results.
 
 ### Day 3
 
