@@ -16,8 +16,6 @@ let day6 =
 
     printfn "Running Day 6 - b"
 
-    let charCount cs c = cs |> Seq.filter ((=) c) |> Seq.length
-
     let calcGroupCountAll group =
         let groupSize = (charCount group '\n') + 1
 

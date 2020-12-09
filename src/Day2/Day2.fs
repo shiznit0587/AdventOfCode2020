@@ -21,11 +21,8 @@ let day2 =
 
     let lines = readLines 2 |> Seq.choose (parseLine)
 
-    let countChars c cs =
-        cs |> Seq.filter (fun c' -> c' = c) |> Seq.length
-
     let validCount =
-        Seq.map (fun line -> (line, (countChars line.Letter line.Password))) lines
+        Seq.map (fun line -> (line, (charCount line.Password line.Letter))) lines
         |> Seq.filter (fun (line, count) -> line.Min <= count && count <= line.Max)
         |> Seq.length
 

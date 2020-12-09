@@ -27,11 +27,8 @@ let day5 =
 
     let min = Seq.head seatIds
 
-    let indexedSeatIds =
-        [ for i in 0 .. seatIds.Length - 1 -> (i, seatIds.[i]) ]
-
     let missingSeatId =
-        fst (Seq.find (fun (index, seatId) -> index <> seatId - min) indexedSeatIds)
+        fst (Seq.find (fun (index, seatId) -> index <> seatId - min) (iteri seatIds))
         + min
 
     printfn "My Seat ID = %d" missingSeatId
