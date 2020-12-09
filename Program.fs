@@ -1,14 +1,25 @@
 ﻿// Learn more about F# at http://fsharp.org
 
+let time f d =
+    let timer = System.Diagnostics.Stopwatch()
+    timer.Start()
+    f()
+    printfn "Elapsed Time for Day %d: %i ms" d timer.ElapsedMilliseconds
+
 [<EntryPoint>]
 let main argv =
     printfn "\n🎅🎅🎅🎅🎅 ADVENT OF CODE 2020 🎅🎅🎅🎅🎅\n"
 
-    Day1.day1
-    Day2.day2
-    Day3.day3
-    Day4.day4
-    Day5.day5
-    Day6.day6
+    let timer = System.Diagnostics.Stopwatch()
+    timer.Start()
+
+    time (fun () -> Day1.day1) 1
+    time (fun () -> Day2.day2) 2
+    time (fun () -> Day3.day3) 3
+    time (fun () -> Day4.day4) 4
+    time (fun () -> Day5.day5) 5
+    time (fun () -> Day6.day6) 6
+
+    printfn "Total Elapsed Time: %i ms" timer.ElapsedMilliseconds
 
     0 // return an integer exit code
