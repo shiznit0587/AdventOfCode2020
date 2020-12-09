@@ -9,5 +9,6 @@ let main argv =
     Day3.day3
     Day4.day4
     Day5.day5
+    Day6.day6
 
     0 // return an integer exit code

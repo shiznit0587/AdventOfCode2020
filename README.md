@@ -21,6 +21,11 @@ For this year, I decided to try my hand at a functional programming language.
 
 A chronicle of what I've tried and learned each day.
 
+### Day 6
+
+- Worked with sets and sequence comprehension for the first time. This gives me an idea to optimize Day 1-b.
+- Learned about [Function Currying](https://fsharpforfunandprofit.com/posts/currying/), which is why most functions can be piped to. Rewrote my countChars method to allow for currying correctly with `Seq.map`.
+
 ### Day 5
 
 - I could not find a standard way to iterate an array with both the index and value, so I wrote it.
