@@ -24,7 +24,10 @@ A chronicle of what I've tried and learned each day.
 ### Day 6
 
 - Worked with sets and sequence comprehension for the first time. This gives me an idea to optimize Day 1-b.
-- Learned about [Function Currying](https://fsharpforfunandprofit.com/posts/currying/), which is why most functions can be piped to. Rewrote my countChars method to allow for currying correctly with `Seq.map`.
+- Learned about [Function Currying](https://fsharpforfunandprofit.com/posts/currying/), which is why most functions can be piped to.
+  - Rewrote my `charCount` method to allow for currying correctly with `Seq.map`.
+- Added timings for execution time per day.
+- Optimized Day 1 solution to use a yielding sequence instead of recursive list deconstruction. Down from 685ms to 56ms!
 
 ### Day 5
 
