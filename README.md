@@ -21,6 +21,11 @@ For this year, I decided to try my hand at a functional programming language.
 
 A chronicle of what I've tried and learned each day.
 
+### Day 5
+
+- I could not find a standard way to iterate an array with both the index and value, so I wrote it.
+- For loop ranges are end-inclusive, good to know.
+
 ### Day 4
 
 - It took me three hours to figure out how to parse the input into a collection of key-value lookup tables, or `seq<Map<string,string>>`.
