@@ -24,7 +24,7 @@ A chronicle of what I've tried and learned each day.
 ### Day 7
 
 - I learned that regex capture patterns within a repeated capture pattern will greedily match only within the last instance of the repeated pattern.
-- I had an entire iteration of the input parsing that used list deconstructing matching patterns and ranges. While it's not in my final solution, at least now I know it.
+- I had an entire iteration of the input parsing that used list deconstructing matching patterns, ranges, and records. While it's not in my final solution, at least now I know it.
 - I got more comfortable with recursion and yielding sequences.
 - I learned how to work with a mutable reference. It feels cludgy for a functional language, but I needed it to solve an edge case.
 

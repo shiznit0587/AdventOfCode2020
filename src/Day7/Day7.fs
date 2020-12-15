@@ -52,4 +52,10 @@ let day7 =
 
     printfn "Running Day 7 - b"
 
+    let rec countBags bag =
+        1
+        + Seq.sumBy (fun r -> (fst r) * (countBags (snd r))) (rules.Item bag)
+
+    printfn "Inner Bag Count = %d" ((countBags "shiny gold") - 1)
+
     printfn "Day 7 Complete"
