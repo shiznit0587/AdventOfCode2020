@@ -21,3 +21,15 @@ let charCount cs c = cs |> Seq.filter ((=) c) |> Seq.length
 
 let iteri (arr: array<'a>): seq<(int * 'a)> =
     seq { for i in 0 .. arr.Length - 1 -> (i, arr.[i]) }
+
+let flatten (s: seq<seq<'a>>) =
+    seq {
+        for a in s do
+            yield! a
+    }
+
+let flatMap (f: 'a -> 'b) (s: seq<seq<'a>>) =
+    seq {
+        for a in s do
+            yield! Seq.map (f) a
+    }
