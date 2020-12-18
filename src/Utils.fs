@@ -22,6 +22,14 @@ let charCount cs c = cs |> Seq.filter ((=) c) |> Seq.length
 let iteri (arr: array<'a>): seq<(int * 'a)> =
     seq { for i in 0 .. arr.Length - 1 -> (i, arr.[i]) }
 
+let siteri (s: seq<'a>): seq<(int * 'a)> =
+    let mutable idx = 0
+    seq {
+        for a in s do
+            yield (idx, a)
+            idx <- idx + 1
+    }
+
 let flatten (s: seq<seq<'a>>) =
     seq {
         for a in s do

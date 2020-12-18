@@ -21,6 +21,12 @@ For this year, I decided to try my hand at a functional programming language.
 
 A chronicle of what I've tried and learned each day.
 
+### Day 8
+
+- This time, I'm actually sticking with records as my state storage instead of using tuples. It's easier to read, and doesn't require re-passing every unchanged part.
+- Modifying a single value in an immutable array seems harder than it should be. The answers on this [SO question](https://stackoverflow.com/questions/29966294/how-to-edit-an-item-in-a-mutable-list-in-f-and-allow-the-other-items-in-the-lis) showcase that well, and also led me to learn about [ref cells](https://stackoverflow.com/questions/3221200/f-let-mutable-vs-ref), which may allow me to solve future problems more imeratively.
+- Part 1 runs really fast, only 13ms! I think it's because everything is on the stack and `runProgram` is tail-recursive.
+
 ### Day 7
 
 - I learned that regex capture patterns within a repeated capture pattern will greedily match only within the last instance of the repeated pattern.
