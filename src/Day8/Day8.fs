@@ -1,10 +1,10 @@
 module Day8
 
 type Status =
-    | Running
-    | Halted
-    | Crashed
-    | Finished
+    | Running = 0
+    | Halted = 1
+    | Crashed = 2
+    | Finished = 3
 
 type Instruction = { Name: string; Number: int }
 
@@ -12,7 +12,7 @@ type ProgramState =
     { Pointer: int
       Accumulator: int
       Status: Status
-      Visited: array<bool> }
+      Visited: Set<int> }
 
 let day8 =
     printfn "Running Day 8 - a"
@@ -20,63 +20,50 @@ let day8 =
     let lines = readLines 8
 
     let parseInstruction (line: string) =
-        let name = line.[0..2]
-        let sign = line.[4]
-        let number = int line.[5..]
-        match sign with
-        | '+' -> Some({ Name = name; Number = number })
-        | '-' -> Some({ Name = name; Number = -number })
-        | _ -> None
+        { Name = line.[0..2]
+          Number = int line.[4..] }
 
-    let instructions = Array.choose (parseInstruction) lines
-
-    let visitInstruction visited pointer =
-        visited
-        |> iteri
-        |> Seq.map (fun p -> if fst p = pointer then true else snd p)
-        |> Seq.toArray
+    let instructions = Array.map (parseInstruction) lines
 
     let tick (instructions: array<Instruction>) state =
-        if state.Pointer < 0 then
-            { state with Status = Crashed }
-        else if instructions.Length < state.Pointer then
-            { state with Status = Crashed }
-        else if instructions.Length = state.Pointer then
-            { state with Status = Finished }
-        else if state.Visited.[state.Pointer] then
-            { state with Status = Halted }
-        else
+        match state.Pointer with
+        | p when p < 0 -> { state with Status = Status.Crashed }
+        | p when p > instructions.Length -> { state with Status = Status.Crashed }
+        | p when p = instructions.Length -> { state with Status = Status.Finished }
+        | p when state.Visited.Contains p -> { state with Status = Status.Halted }
+        | _ ->
             let instr = instructions.[state.Pointer]
+
             match instr.Name with
             | "acc" ->
                 { state with
                       Pointer = state.Pointer + 1
                       Accumulator = state.Accumulator + instr.Number
-                      Visited = visitInstruction state.Visited state.Pointer }
+                      Visited = state.Visited.Add state.Pointer }
             | "jmp" ->
                 { state with
                       Pointer = state.Pointer + instr.Number
-                      Visited = visitInstruction state.Visited state.Pointer }
+                      Visited = state.Visited.Add state.Pointer }
             | "nop" ->
                 { state with
                       Pointer = state.Pointer + 1
-                      Visited = visitInstruction state.Visited state.Pointer }
+                      Visited = state.Visited.Add state.Pointer }
             | _ -> state
 
     let rec tickProgram instructions state =
-        match state.Status with
-        | Running ->
+        if state.Status <> Status.Running then
+            state
+        else
             tickProgram instructions
             <| tick instructions state
-        | _ -> state
 
     let runProgram instructions =
         tickProgram
             instructions
             { Pointer = 0
               Accumulator = 0
-              Status = Running
-              Visited = Array.zeroCreate instructions.Length }
+              Status = Status.Running
+              Visited = Set.empty }
 
     let state = runProgram instructions
 
@@ -86,27 +73,28 @@ let day8 =
 
     let getProgramVariants (instructions: array<Instruction>) =
         let flipInstruction idx =
-            let inst = instructions.[idx]
-            match inst.Name with
-            | "nop" -> Some({ inst with Name = "jmp" })
-            | "jmp" -> Some({ inst with Name = "nop" })
+            let instr = instructions.[idx]
+
+            match instr.Name with
+            | "nop" -> Some({ instr with Name = "jmp" })
+            | "jmp" -> Some({ instr with Name = "nop" })
             | _ -> None
 
         seq {
-            for i in 0 .. instructions.Length do
+            for i in 0 .. instructions.Length - 1 do
                 match flipInstruction i with
-                | Some (inst) ->
-                    let prevInst = instructions.[i]
-                    instructions.[i] <- inst
+                | Some (instr) ->
+                    let prevInstr = instructions.[i]
+                    instructions.[i] <- instr
                     yield instructions
-                    instructions.[i] <- prevInst
+                    instructions.[i] <- prevInstr
                 | None -> ()
         }
 
     let state =
         getProgramVariants instructions
         |> Seq.map (runProgram)
-        |> Seq.find (fun s -> s.Status = Finished)
+        |> Seq.find (fun s -> s.Status = Status.Finished)
 
     printfn "Accumulator = %d" state.Accumulator
 

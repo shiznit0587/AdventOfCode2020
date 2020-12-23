@@ -29,6 +29,7 @@ A chronicle of what I've tried and learned each day.
 - When working on Part 2, I realized that arrays are actually mutable. I used that to write a sequence generator of program variants that always returns the same instruction list, but modified.
 - I figured out how to have a match case do nothing, with `()`. It saved me from an extra `|> Seq.choose(id)` and additional boxing/unboxing.
 - I know that part 2 is iterating the sequence generator lazily, but it still runs slow. I wonder if my use of array mutability is causing performance issues.
+- I figured out that the performance issue was the constant creation of the `visited` array. Converted it to a `Set` and cut the runtime from 850ms to 35ms.
 
 ### Day 7
 
