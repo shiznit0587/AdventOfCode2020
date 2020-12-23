@@ -13,6 +13,7 @@ let readText (day: int) =
 // Regular Expression active pattern: http://www.fssnip.net/29
 let (|Regex|_|) pattern input =
     let m = Regex.Match(input, pattern)
+
     if m.Success
     then Some(List.tail [ for g in m.Groups -> g.Value ])
     else None
@@ -24,6 +25,7 @@ let iteri (arr: array<'a>): seq<(int * 'a)> =
 
 let siteri (s: seq<'a>): seq<(int * 'a)> =
     let mutable idx = 0
+
     seq {
         for a in s do
             yield (idx, a)
