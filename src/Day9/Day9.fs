@@ -28,8 +28,28 @@ let day9 =
         | Some (_) -> findWeakness (idx + 1)
         | None -> input.[idx]
 
-    printfn "Weakness = %d" (findWeakness PREAMBLESIZE)
+    let weaknessKey = findWeakness PREAMBLESIZE
+
+    printfn "Weakness Key = %d" weaknessKey
 
     printfn "Running Day 9 - b"
+
+    let findRange target =
+        let rec findRangeRec x y sum =
+            let sum = sum + input.[y]
+
+            match sum with
+            | s when s > target -> findRangeRec (x + 1) (x + 2) input.[x + 1]
+            | s when s < target -> findRangeRec x (y + 1) sum
+            | _ -> (x, y)
+
+        findRangeRec 0 1 input.[0]
+
+    let (x, y) = findRange weaknessKey
+
+    let weakness =
+        List.min input.[x..y] + List.max input.[x..y]
+
+    printfn "Weakness = %d" weakness
 
     printfn "Day 9 Complete"
