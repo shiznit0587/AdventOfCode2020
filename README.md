@@ -21,6 +21,21 @@ For this year, I decided to try my hand at a functional programming language.
 
 A chronicle of what I've tried and learned each day.
 
+### Day 11
+
+- I used a bunch of new `Array2D` library functions.
+- I learned that most collections support direct equality comparison.
+- I was able to commonize some code between the parts by passing a function as an argument to another function, which I hadn't done yet as part of a day solution.
+
+### Day 10
+
+- I was able to simplify some code and handle edge case issues by appending `0` and `max + 3` to the head and tail of the input, using the `@` operator for list append.
+- I used memoization to optimize the evaluation of possible paths from an adapter to the device.
+
+### Day 9
+
+- I tried to commonize the `findSummingPair` method so I could use it for both Day 9 and Day 1, but Day 1 operates on `int` and Day 9 on `int64`, and I couldn't figure out how to provide the correct operator-based type constraints (such as `(=)`).
+
 ### Day 8
 
 - This time, I'm actually sticking with records as my state storage instead of using tuples. It's easier to read, and doesn't require re-passing every unchanged part.
