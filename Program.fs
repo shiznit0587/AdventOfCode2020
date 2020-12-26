@@ -25,6 +25,7 @@ let main argv =
     time (fun () -> Day10.day10) 10
     time (fun () -> Day11.day11) 11
     time (fun () -> Day12.day12) 12
+    time (fun () -> Day13.day13) 13
 
     printfn "Total Elapsed Time: %i ms" timer.ElapsedMilliseconds
 
