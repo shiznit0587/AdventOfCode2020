@@ -21,6 +21,10 @@ For this year, I decided to try my hand at a functional programming language.
 
 A chronicle of what I've tried and learned each day.
 
+### Day 13
+
+- This day is the [Chinese Remainder Theorem](https://www.youtube.com/watch?v=zIFehsBHB8o), same as 2016-12-15. I think I actually used the technique correctly this year.
+
 ### Day 12
 
 - I originally solved Part 1 of this day with a `Compass` enum and a lot of `match` statements for rotating. Then after solving Part 2 and working with vector rotations, I realized the `Compass` from Part 1 was essentially a waypoint that was always 1 unit away from the ship. I refactored the solutions to commonize the structure and rotation logic.

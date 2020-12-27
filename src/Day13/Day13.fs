@@ -28,37 +28,25 @@ let day13 =
 
     printfn "Running Day 13 - b"
 
-    let getBusMins (parts: string array) =
-        seq {
-            let mutable x = 1
+    // It's the Chinese Remainder Theorem, just like 2016-12-15
 
-            for i in 0 .. parts.Length - 1 do
-                if parts.[i] = "x" then
-                    x <- x + 1
-                else
-                    yield (int parts.[i], x)
-                    x <- 1
-        }
-
-    let findTime time (bus, mins) =
-        let rec findTimeRec time interval bus mins =
-            if calcNextBusDeparture time bus = time + mins
-            then time + mins
-            else findTimeRec (time + interval) interval bus mins
-
-        findTimeRec time time bus mins
-
-    findTime 7 (13, 1)
-    findTime 78 (59, 3) // -> 2655, which is incorrect! 2651 % 7 != 0 :: interval must be wrong?
-    findTime 2655 (31, 2)
-    findTime 7967 (19, 1)
-    // 23902 - Incorrect!
-
-    let time =
+    let buses =
         input.[1].Split ','
-        |> getBusMins
-        |> Seq.fold (findTime) 0
+        |> Seq.indexed
+        |> Seq.choose (fun (i, s) -> if s = "x" then None else Some(int64 i, int64 s))
+        |> Seq.map (fun (i, bus) -> (bus - (i % bus), bus))
 
-    printfn "Time = %d" time
+    let modInverse x mod' =
+        [ 1L .. mod' ]
+        |> Seq.find (fun m -> (x * m) % mod' = 1L)
+
+    let N = buses |> Seq.map (snd) |> Seq.reduce (*)
+
+    let x =
+        buses
+        |> Seq.map (fun (bi, ni) -> bi * (N / ni) * modInverse (N / ni) ni)
+        |> Seq.reduce (+)
+
+    printfn "Timestamp = %d" (x % N)
 
     printfn "Day 13 Complete"
