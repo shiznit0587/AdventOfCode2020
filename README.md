@@ -1,8 +1,8 @@
 # AdventOfCode2020
 
-[Advent of Code 2020](https://adventofcode.com/2020)
+**[Advent of Code 2020](https://adventofcode.com/2020)**
 
-For this year, I decided to try my hand at a functional programming language.
+For this year, I decided to try my hand at a functional programming language, so I went with **F#**.
 
 ## Resources
 
@@ -20,6 +20,12 @@ For this year, I decided to try my hand at a functional programming language.
 ## Journal
 
 A chronicle of what I've tried and learned each day.
+
+### Day 14
+
+- F# bit-shifting operators took some getting used to. The symbols usually used (`~ | & < >`) are employed elsewhere in the language, so these operators are `~~~`, `|||`, `&&&`, `<<<`, and `>>>` instead.
+- Finally using discriminated unions.
+- For Part 1, I parsed each mask string as two masks - one to `&` with and one to `|` with.
 
 ### Day 13
 
