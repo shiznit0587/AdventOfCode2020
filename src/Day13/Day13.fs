@@ -34,7 +34,7 @@ let day13 =
         input.[1].Split ','
         |> Seq.indexed
         |> Seq.choose (fun (i, s) -> if s = "x" then None else Some(int64 i, int64 s))
-        |> Seq.map (fun (i, bus) -> (bus - (i % bus), bus))
+        |> Seq.map (fun (i, bus) -> bus - (i % bus), bus)
 
     let modInverse x mod' =
         [ 1L .. mod' ]
@@ -43,9 +43,7 @@ let day13 =
     let N = buses |> Seq.map (snd) |> Seq.reduce (*)
 
     let x =
-        buses
-        |> Seq.map (fun (bi, ni) -> bi * (N / ni) * modInverse (N / ni) ni)
-        |> Seq.reduce (+)
+        Seq.sumBy (fun (bi, ni) -> bi * (N / ni) * modInverse (N / ni) ni) buses
 
     printfn "Timestamp = %d" (x % N)
 
