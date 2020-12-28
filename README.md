@@ -23,7 +23,7 @@ A chronicle of what I've tried and learned each day.
 
 ### Day 14
 
-- F# bit-shifting operators took some getting used to. The symbols usually used (`~ | & < >`) are employed elsewhere in the language, so these operators are `~~~`, `|||`, `&&&`, `<<<`, and `>>>` instead.
+- F# bit-shifting operators took some getting used to. The symbols usually used (`& | ^ ~ < >`) are employed elsewhere in the language, so the operators are all [three of a character repeated](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/symbol-and-operator-reference/bitwise-operators).
 - Finally using discriminated unions.
 - For Part 1, I parsed each mask string as two masks - one to `&` with and one to `|` with.
 
