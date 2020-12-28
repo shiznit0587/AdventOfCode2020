@@ -20,13 +20,13 @@ let (|Regex|_|) pattern input =
 
 let charCount cs c = cs |> Seq.filter ((=) c) |> Seq.length
 
-let flatten (s: seq<seq<'a>>) =
+let flatten s =
     seq {
         for a in s do
             yield! a
     }
 
-let flatMap (f: 'a -> 'b) (s: seq<seq<'a>>) =
+let flatMap f s =
     seq {
         for a in s do
             yield! Seq.map (f) a
