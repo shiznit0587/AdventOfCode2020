@@ -11,8 +11,6 @@ open System.Collections.Generic
 // Reduced the runtime from 60s to 6s.
 let day15Part2 =
 
-    printfn "Running Day 15 - b"
-
     let input =
         (readLines 15).[0].Split ',' |> Array.map (int)
 
