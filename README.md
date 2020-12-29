@@ -25,6 +25,7 @@ A chronicle of what I've tried and learned each day.
 
 - I wanted to use an infinite sequence generator, but I couldn't figure out how to with a state more complex than an index.
 - I initially used a `Map<int, int option * int option>` for the seen rounds per number. I simplified it to `Map<int, int>` by keeping the previous round's value on the state itself. Since the map was now smaller, the runtime dropped from ~90s to ~60s.
+- I reimplemented Part 2 utilizing a mutable Dictionary and reduced the runtime to 6s!
 
 ### Day 14
 
