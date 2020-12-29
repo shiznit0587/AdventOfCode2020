@@ -21,6 +21,11 @@ For this year, I decided to try my hand at a functional programming language, so
 
 A chronicle of what I've tried and learned each day.
 
+### Day 15
+
+- I wanted to use an infinite sequence generator, but I couldn't figure out how to with a state more complex than an index.
+- I initially used a `Map<int, int option * int option>` for the seen rounds per number. I simplified it to `Map<int, int>` by keeping the previous round's value on the state itself. Since the map was now smaller, the runtime dropped from ~90s to ~60s.
+
 ### Day 14
 
 - F# bit-shifting operators took some getting used to. The symbols usually used (`& | ^ ~ < >`) are employed elsewhere in the language, so the operators are all [three of a character repeated](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/symbol-and-operator-reference/bitwise-operators).
