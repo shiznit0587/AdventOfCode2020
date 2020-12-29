@@ -29,24 +29,17 @@ let day15 =
 
         { Value = next; Seen = seen }
 
-    let state =
-        [ input.Length + 1 .. 2020 ]
+    let genState target =
+        [ input.Length + 1 .. target ]
         |> Seq.fold
             genNext
             { Value = Array.last input |> int
               Seen = seen }
 
-    printfn "2020th Number = %d" state.Value
+    printfn "2020th Number = %d" (genState 2020).Value
 
     printfn "Running Day 15 - b"
 
-    let state =
-        [ input.Length + 1 .. 30_000_000 ]
-        |> Seq.fold
-            genNext
-            { Value = Array.last input |> int
-              Seen = seen }
-
-    printfn "30 Millionth Number = %d" state.Value
+    printfn "30 Millionth Number = %d" (genState 30_000_000).Value
 
     printfn "Day 15 Complete"
