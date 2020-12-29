@@ -3,7 +3,7 @@
 let time f d =
     let timer = System.Diagnostics.Stopwatch()
     timer.Start()
-    f()
+    f ()
     printfn "Elapsed Time for Day %d: %i ms" d timer.ElapsedMilliseconds
 
 [<EntryPoint>]
@@ -28,6 +28,7 @@ let main argv =
     time (fun () -> Day13.day13) 13
     time (fun () -> Day14.day14) 14
     time (fun () -> Day15.day15) 15
+    time (fun () -> Day16.day16) 16
 
     printfn "Total Elapsed Time: %i ms" timer.ElapsedMilliseconds
 
