@@ -26,6 +26,7 @@ let runDay day =
     | Some (14) -> time (fun () -> Day14.day14) 14
     | Some (15) -> time (fun () -> Day15.day15) 15
     | Some (16) -> time (fun () -> Day16.day16) 16
+    | Some (17) -> time (fun () -> Day17.day17) 17
     | Some (_)
     | None -> printfn "Please provide a Day\n"
 
@@ -50,7 +51,7 @@ let main argv =
     timer.Start()
 
     if all then
-        [ 1 .. 16 ]
+        [ 1 .. 17 ]
         |> Seq.map (fun d -> Some(d))
         |> Seq.iter (runDay)
     else
