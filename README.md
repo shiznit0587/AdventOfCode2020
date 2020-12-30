@@ -16,21 +16,30 @@ For this year, I decided to try my hand at a functional programming language, so
 - [F# Programming WikiBook](https://en.wikibooks.org/wiki/F_Sharp_Programming)
 - [F# documentation](https://docs.microsoft.com/en-us/dotnet/fsharp/)
 - [FSharp.Core API Reference](https://fsharp.github.io/fsharp-core-docs/reference/)
+- [Jo Van Eyck / advent-of-code-2020](https://github.com/jovaneyck/advent-of-code-2020)
 
 ## Journal
 
 A chronicle of what I've tried and learned each day.
 
+### Day 16
+
+- Now that my total solution execution time is >5s, I've added command line argument support for specifying which Day to run.
+- I originally grouped values per field across tickets by grouping a flattened sequence of indexed sequences by the index. Then I found `Seq.transpose`!
+- My algorithm relies heavily on `Set.difference`, which I believe is contributing to this solution's slowness.
+  - **TODO**: I wonder if working with `List` would be more performant.
+
 ### Day 15
 
 - I wanted to use an infinite sequence generator, but I couldn't figure out how to with a state more complex than an index.
+  - **TODO**: I just found `Seq.unfold` which looks to be exactly what I wanted.
 - I initially used a `Map<int, int option * int option>` for the seen rounds per number. I simplified it to `Map<int, int>` by keeping the previous round's value on the state itself. Since the map was now smaller, the runtime dropped from ~90s to ~60s.
-- I reimplemented Part 2 utilizing a mutable Dictionary and reduced the runtime to 6s!
+- I reimplemented Part 2 utilizing a `mutable Dictionary` and reduced the runtime to 6s. I feel dirty.
 
 ### Day 14
 
 - F# bit-shifting operators took some getting used to. The symbols usually used (`& | ^ ~ < >`) are employed elsewhere in the language, so the operators are all [three of a character repeated](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/symbol-and-operator-reference/bitwise-operators).
-- Finally using discriminated unions.
+- I finally used discriminated unions as part of my solution.
 - For Part 1, I parsed each mask string as two masks - one to `&` with and one to `|` with.
 
 ### Day 13
@@ -85,6 +94,7 @@ A chronicle of what I've tried and learned each day.
 ### Day 5
 
 - I could not find a standard way to iterate an array with both the index and value, so I wrote it.
+  - **Update**: I found `Array.indexed`, and its counterparts in `Seq` and `List`.
 - For loop ranges are end-inclusive, good to know.
 
 ### Day 4

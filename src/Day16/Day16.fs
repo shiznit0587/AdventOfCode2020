@@ -1,9 +1,5 @@
 module Day16
 
-type Rule =
-    { Name: string
-      Ranges: List<int * int> }
-
 let day16 =
     printfn "Running Day 16 - a"
 
@@ -18,23 +14,17 @@ let day16 =
         match s with
         | Regex @"(.+): (.+)-(.+) or (.+)-(.+)" [ name; min1; max1; min2; max2 ] ->
             Some(
-                { Name = name
-                  Ranges =
-                      [ int min1, int max1
-                        int min2, int max2 ] }
+                name,
+                [ int min1 .. int max1 ]
+                @ [ int min2 .. int max2 ]
+                |> Set
             )
         | _ -> None
 
     let rules =
         input.[0].Split('\n') |> Seq.choose (parseRule)
 
-    let allAllowedValues =
-        rules
-        |> Seq.map (fun r -> r.Ranges)
-        |> flatten
-        |> Seq.map (fun r -> [ fst r .. snd r ])
-        |> flatten
-        |> Set
+    let allAllowedValues = rules |> Seq.map snd |> Set.unionMany
 
     let nearbyTickets =
         Seq.map ((fun (s: string) -> s.Split ',') >> (Seq.map int)) (input.[2].Split('\n'))
@@ -47,6 +37,8 @@ let day16 =
 
     printfn "Ticket Scanning Error Rate = %d" errorRate
 
+    printfn "Running Day 16 - b"
+
     let validTickets =
         nearbyTickets
         |> Seq.filter
@@ -54,21 +46,57 @@ let day16 =
                 (Set.difference (t |> Set) allAllowedValues)
                     .IsEmpty)
 
-    // I need to group the values from all of the tickets
-
+    // Group the values from all valid tickets by their index.
     let valueGroups =
-        validTickets
-        |> Seq.map (Seq.indexed)
-        |> flatten
-        |> Seq.groupBy (fst)
-        |> Seq.map (fun (i, s) -> (i, Seq.map (snd) s))
-        |> Map
+        validTickets |> Seq.transpose |> Seq.map Set
 
-    let myTicket = input.[1]
+    // Get a set of valid rule names per value group
+    let getRulesMatchingValues (values: Set<int>) =
+        rules
+        |> Seq.filter (fun (_, r) -> (Set.difference values r).IsEmpty)
+        |> Seq.map fst
+        |> Set
 
+    let ruleSets =
+        Seq.map getRulesMatchingValues valueGroups
 
-    // Each rule is <name>: <min1>-<max1> or <min2>-<max2>
+    let resolveRules (ruleSets: seq<Set<string>>) =
+        let rec resolveRulesRec (rss: seq<Set<string>>) =
+            if rss |> Seq.forall (fun rs -> rs.Count = 1) then
+                rss
+            else
+                // Build a set of all rules that appear alone.
+                let resolvedRules =
+                    rss
+                    |> Seq.filter (fun rs -> rs.Count = 1)
+                    |> flatten
+                    |> Set
 
-    printfn "Running Day 16 - b"
+                // Remove all resolved rules from all rule sets with Count > 1.
+                let rss =
+                    rss
+                    |> Seq.map
+                        (fun rs ->
+                            if rs.Count = 1 then
+                                rs
+                            else
+                                Set.difference rs resolvedRules)
+
+                resolveRulesRec rss
+
+        resolveRulesRec ruleSets
+        |> Seq.map (Set.minElement)
+
+    let orderedRules = resolveRules ruleSets
+
+    let myTicket = input.[1].Split ',' |> Seq.map int
+
+    let departureProduct =
+        Seq.zip orderedRules myTicket
+        |> Seq.filter (fun (r, _) -> r.StartsWith "departure")
+        |> Seq.map (fun (_, v) -> int64 v)
+        |> Seq.reduce (*)
+
+    printfn "Departure Product = %d" departureProduct
 
     printfn "Day 16 Complete"
