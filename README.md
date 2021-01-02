@@ -28,6 +28,7 @@ A chronicle of what I've tried and learned each day.
 - I found out the hard way that array slices are copies and not views into the source data. This means passing a target array slice into `Array.blit` does nothing.
 - F# has both `for .. in` and `for .. to`. When working with a range of integers, I can't really tell if there's a difference.
 - The example input and simulation seemed completely wrong to me! I found the explanation why and yanked the expanded example from this [Reddit thread](https://www.reddit.com/r/adventofcode/comments/ker0wi/2020_day_17_part_1_sample_input_wrong/).
+- `Array3D` and `Array4D` don't have `blit` functions. Also, `Array4D` doesn't have `map` or `mapi` functions. I found the `Array3D.mapi` source code [here](https://github.com/dotnet/fsharp/blob/main/src/fsharp/FSharp.Core/array3.fs#L98-98) and adapted it myself for `Array4D`.
 
 ### Day 16
 
