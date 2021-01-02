@@ -10,6 +10,7 @@ For this year, I decided to try my hand at a functional programming language, so
 - [F# syntax in 60 seconds](https://fsharpforfunandprofit.com/posts/fsharp-in-60-seconds/)
 - [F# Cheatsheet](http://dungpa.github.io/fsharp-cheatsheet/)
 - [F# Collection Types](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/fsharp-collection-types)
+- [F# Reference Cells](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/reference-cells)
 - [fsharp-tutorial.fs](https://gist.github.com/odytrice/667bc1d8d7c872fe8c5b1baa58898c32)
 - [Active Patterns](https://fsharpforfunandprofit.com/posts/convenience-active-patterns/)
 - [Regular expression active pattern](http://www.fssnip.net/29)
@@ -21,6 +22,12 @@ For this year, I decided to try my hand at a functional programming language, so
 ## Journal
 
 A chronicle of what I've tried and learned each day.
+
+### Day 17
+
+- I found out the hard way that array slices are copies and not views into the source data. This means passing a target array slice into `Array.blit` does nothing.
+- F# has both `for .. in` and `for .. to`. When working with a range of integers, I can't really tell if there's a difference.
+- The example input and simulation seemed completely wrong to me! I found the explanation why and yanked the expanded example from this [Reddit thread](https://www.reddit.com/r/adventofcode/comments/ker0wi/2020_day_17_part_1_sample_input_wrong/).
 
 ### Day 16
 
