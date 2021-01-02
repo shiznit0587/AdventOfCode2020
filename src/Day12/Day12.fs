@@ -1,6 +1,8 @@
 module Day12
 
-type Ship = { X: int; Y: int; Waypoint: int * int }
+type Map =
+    { Ship: int * int
+      Waypoint: int * int }
 
 let day12 =
     printfn "Running Day 12 - a"
@@ -9,60 +11,53 @@ let day12 =
         readLines 12
         |> Array.map (fun l -> (l.[0], int l.[1..]))
 
-    let rec rotateRight times (x, y) =
-        if times = 1 then (y, -x) else rotateRight (times - 1) (y, -x)
+    let rotateRight times (x, y) =
+        [ 1 .. times ]
+        |> Seq.fold (fun (x, y) _ -> y, -x) (x, y)
 
-    let rec rotateLeft times (x, y) =
-        if times = 1 then (-y, x) else rotateLeft (times - 1) (-y, x)
+    let rotateLeft times (x, y) =
+        [ 1 .. times ]
+        |> Seq.fold (fun (x, y) _ -> -y, x) (x, y)
 
-    let moveShip (ship: Ship) (action, units) =
+    let moveCoords (x, y) action units =
         match action with
-        | 'N' -> { ship with Y = ship.Y + units }
-        | 'S' -> { ship with Y = ship.Y - units }
-        | 'E' -> { ship with X = ship.X + units }
-        | 'W' -> { ship with X = ship.X - units }
-        | _ -> ship
+        | 'N' -> (x, y + units)
+        | 'S' -> (x, y - units)
+        | 'E' -> (x + units, y)
+        | 'W' -> (x - units, y)
+        | _ -> (x, y)
 
-    let moveWaypoint (ship: Ship) (action, units) =
-        match action with
-        | 'N' ->
-            { ship with
-                  Waypoint = (fst ship.Waypoint, snd ship.Waypoint + units) }
-        | 'S' ->
-            { ship with
-                  Waypoint = (fst ship.Waypoint, snd ship.Waypoint - units) }
-        | 'E' ->
-            { ship with
-                  Waypoint = (fst ship.Waypoint + units, snd ship.Waypoint) }
-        | 'W' ->
-            { ship with
-                  Waypoint = (fst ship.Waypoint - units, snd ship.Waypoint) }
-        | _ -> ship
+    let moveShip (map: Map) action units =
+        { map with
+              Ship = moveCoords map.Ship action units }
 
-    let doNav movement (ship: Ship) (action, units) =
+    let moveWaypoint (map: Map) action units =
+        { map with
+              Waypoint = moveCoords map.Waypoint action units }
+
+    let doNav movement (map: Map) (action, units) =
         match action with
         | 'L' ->
-            { ship with
-                  Waypoint = rotateLeft (units / 90) ship.Waypoint }
+            { map with
+                  Waypoint = rotateLeft (units / 90) map.Waypoint }
         | 'R' ->
-            { ship with
-                  Waypoint = rotateRight (units / 90) ship.Waypoint }
+            { map with
+                  Waypoint = rotateRight (units / 90) map.Waypoint }
         | 'F' ->
-            { ship with
-                  X = ship.X + fst ship.Waypoint * units
-                  Y = ship.Y + snd ship.Waypoint * units }
-        | _ -> movement ship (action, units)
+            { map with
+                  Ship = fst map.Ship + fst map.Waypoint * units, snd map.Ship + snd map.Waypoint * units }
+        | _ -> movement map action units
 
-    let ship =
-        Seq.fold (doNav moveShip) { X = 0; Y = 0; Waypoint = (1, 0) } input
+    let map =
+        Seq.fold (doNav moveShip) { Ship = 0, 0; Waypoint = 1, 0 } input
 
-    printfn "Manhattan Distance = %d" (abs ship.X + abs ship.Y)
+    printfn "Manhattan Distance = %d" (abs (fst map.Ship) + abs (snd map.Ship))
 
     printfn "Running Day 12 - b"
 
-    let ship =
-        Seq.fold (doNav moveWaypoint) { X = 0; Y = 0; Waypoint = (10, 1) } input
+    let map =
+        Seq.fold (doNav moveWaypoint) { Ship = 0, 0; Waypoint = 10, 1 } input
 
-    printfn "Manhattan Distance = %d" (abs ship.X + abs ship.Y)
+    printfn "Manhattan Distance = %d" (abs (fst map.Ship) + abs (snd map.Ship))
 
     printfn "Day 12 Complete"
