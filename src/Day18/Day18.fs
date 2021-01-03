@@ -4,6 +4,10 @@ type Operation =
     | Plus
     | Times
 
+type MathType =
+    | Basic
+    | Advanced
+
 type Token =
     | OpenParen
     | CloseParen
@@ -29,8 +33,6 @@ let day18 =
         |> Array.map (parseToken)
         |> Array.toList
 
-    let homework = readLines 18 |> Array.map (parseLine)
-
     let scanParenDepth depth token =
         match token with
         | OpenParen -> depth + 1
@@ -43,36 +45,44 @@ let day18 =
         |> List.tail
         |> List.findIndex (fun d -> d = 0)
 
-    let rec compute (tokens: List<Token>): int64 =
-        match tokens with
-        | OpenParen :: _ ->
-            let closeParenIdx = findMatchingCloseParen tokens
-            let subTokens = tokens.[1..closeParenIdx - 1]
-            let token = Operand(compute subTokens)
-            compute (token :: tokens.[closeParenIdx + 1..])
-        | [ Operand (x) ] -> x
-        | [ Operand (x); Operation (op); Operand (y) ] ->
-            match op with
-            | Plus -> x + y
-            | Times -> x * y
-        | Operand (x) :: Operation (op) :: Operand (y) :: tl ->
-            match op with
-            | Plus -> compute (Operand(x + y) :: tl)
-            | Times -> compute (Operand(x * y) :: tl)
-        | Operand (x) :: Operation (op) :: OpenParen :: _ ->
-            let closeParenIdx = 2 + findMatchingCloseParen tokens.[2..]
-            let y = compute tokens.[3..closeParenIdx - 1]
-
-            let token =
+    let compute mathType tokens =
+        let rec computeRec tokens =
+            match tokens with
+            | OpenParen :: _ ->
+                let closeParenIdx = findMatchingCloseParen tokens
+                let subTokens = tokens.[1..closeParenIdx - 1]
+                let token = Operand(computeRec subTokens)
+                computeRec (token :: tokens.[closeParenIdx + 1..])
+            | [ Operand (x) ] -> x
+            | [ Operand (x); Operation (op); Operand (y) ] ->
                 match op with
-                | Plus -> Operand(x + y)
-                | Times -> Operand(x * y)
+                | Plus -> x + y
+                | Times -> x * y
+            | Operand (x) :: Operation (op) :: Operand (y) :: tl ->
+                match op, mathType with
+                | Plus, _ -> computeRec (Operand(x + y) :: tl)
+                | Times, Basic -> computeRec (Operand(x * y) :: tl)
+                | Times, Advanced -> x * computeRec (Operand(y) :: tl)
+            | Operand (x) :: Operation (op) :: OpenParen :: _ ->
+                let closeParenIdx = 2 + findMatchingCloseParen tokens.[2..]
+                let y = computeRec tokens.[3..closeParenIdx - 1]
 
-            compute (token :: List.skip (closeParenIdx + 1) tokens)
-        | _ -> failwith "Invalid token order"
+                computeRec (
+                    [ Operand(x)
+                      Operation(op)
+                      Operand(y) ]
+                    @ List.skip (closeParenIdx + 1) tokens
+                )
+            | _ -> failwith "Invalid token order"
 
-    printfn "Homework Sum = %d" (Array.sumBy compute homework)
+        computeRec tokens
+
+    let homework = readLines 18 |> Array.map (parseLine)
+
+    printfn "Homework Sum = %d" (Array.sumBy (compute Basic) homework)
 
     printfn "Running Day 18 - b"
+
+    printfn "Homework Sum = %d" (Array.sumBy (compute Advanced) homework)
 
     printfn "Day 18 Complete"
