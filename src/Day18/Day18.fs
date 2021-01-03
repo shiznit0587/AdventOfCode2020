@@ -71,12 +71,6 @@ let day18 =
             compute (token :: List.skip (closeParenIdx + 1) tokens)
         | _ -> failwith "Invalid token order"
 
-    let computeAndPrint tokens =
-        printfn "Tokens = %A" tokens
-        let solution = compute tokens
-        printfn "Solution = %d" solution
-        solution
-
     printfn "Homework Sum = %d" (Array.sumBy compute homework)
 
     printfn "Running Day 18 - b"
