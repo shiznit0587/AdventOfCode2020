@@ -63,15 +63,14 @@ let day18 =
                 | Plus, _ -> computeRec (Operand(x + y) :: tl)
                 | Times, Basic -> computeRec (Operand(x * y) :: tl)
                 | Times, Advanced -> x * computeRec (Operand(y) :: tl)
-            | Operand (x) :: Operation (op) :: OpenParen :: _ ->
+            | _ :: _ :: OpenParen :: _ ->
                 let closeParenIdx = 2 + findMatchingCloseParen tokens.[2..]
                 let y = computeRec tokens.[3..closeParenIdx - 1]
 
                 computeRec (
-                    [ Operand(x)
-                      Operation(op)
-                      Operand(y) ]
-                    @ List.skip (closeParenIdx + 1) tokens
+                    tokens.[0..1]
+                    @ [ Operand(y) ]
+                      @ List.skip (closeParenIdx + 1) tokens
                 )
             | _ -> failwith "Invalid token order"
 

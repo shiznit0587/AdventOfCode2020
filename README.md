@@ -23,6 +23,12 @@ For this year, I decided to try my hand at a functional programming language, so
 
 A chronicle of what I've tried and learned each day.
 
+### Day 18
+
+- I wish I had learned the [shunting yard algorithm](https://en.wikipedia.org/wiki/Shunting-yard_algorithm) before I'd done this day. Instead, I evaluated and replaced sub-ranges of a list of tokens based on parens recursively as I hit them, and applied the `+` or `*` greedily before recursing or lazily as the stack unwound, depending on the operation/math type. This only worked because there were only two operations.
+- I used a lot of List pattern matching for this day, and it was super helpful.
+- I learned about `List.scan`, which I used to determine the index of the matching closing paren token.
+
 ### Day 17
 
 - I found out the hard way that array slices are copies and not views into the source data. This means passing a target array slice into `Array.blit` does nothing.
